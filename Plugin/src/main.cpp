@@ -11,16 +11,16 @@
 #include "RE/Bethesda/UserEvents.h"
 #include "RE/Offset.h"
 
+#include <ShlObj_core.h>
 #include <array>
 #include <memory>
 #include <utility>
-#include <ShlObj_core.h>
 
 #define PLUGIN_MODE
 
+#include "DKUtil/Config.hpp"
 #include "DKUtil/Hook.hpp"
 #include "DKUtil/Logger.hpp"
-#include "DKUtil/Config.hpp"
 
 #define DLLEXPORT extern "C" [[maybe_unused]] __declspec(dllexport)
 
@@ -39,7 +39,7 @@ namespace RE
 bool IsUsingGamepad(RE::BSInputDeviceManager* a_inputDeviceManager)
 {
 	using func_t = decltype(IsUsingGamepad);
-	REL::Relocation<func_t> func { RE::Offset::BSInputDeviceManager::IsUsingGamepad };
+	REL::Relocation<func_t> func{ RE::Offset::BSInputDeviceManager::IsUsingGamepad };
 	return func(a_inputDeviceManager);
 }
 
@@ -74,16 +74,14 @@ BOOL APIENTRY DllMain(HMODULE a_hModule, DWORD a_ul_reason_for_call, LPVOID a_lp
 				RE::Offset::PlayerControls::LookHandler::Vtbl);
 			vtbl.write_vfunc(
 				1,
-				+[](RE::PlayerControls::LookHandler*, RE::InputEvent* event) -> bool
-				{
+				+[](RE::PlayerControls::LookHandler*, RE::InputEvent* event) -> bool {
 					if (RE::UserEvents::QLook() != event->QUserEvent()) {
 						return false;
 					}
 
 					if (event->eventType == RE::INPUT_EVENT_TYPE::MouseMove) {
 						UsingThumbstickLook = false;
-					}
-					else if (event->eventType == RE::INPUT_EVENT_TYPE::Thumbstick) {
+					} else if (event->eventType == RE::INPUT_EVENT_TYPE::Thumbstick) {
 						UsingThumbstickLook = true;
 					}
 

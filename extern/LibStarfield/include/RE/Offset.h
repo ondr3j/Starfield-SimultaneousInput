@@ -8,7 +8,7 @@ namespace RE
 	{
 		namespace UserEvents
 		{
-			constexpr REL::Offset QLook { 0x1D72E4C };
+			constexpr REL::Offset QLook{ 0x1D72E4C };
 		}
 	}
 }
