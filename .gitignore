@@ -1,0 +1,8 @@
+[Bb]uild/
+.vs/
+.vscode/
+*.zip
+*.asi
+*.dll
+*.timestamp
+deploy-*.ps1
